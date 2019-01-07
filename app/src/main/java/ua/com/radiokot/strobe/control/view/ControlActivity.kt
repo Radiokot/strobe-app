@@ -15,6 +15,7 @@ import ua.com.radiokot.strobe.command.ContinuousFlashingBpmCommand
 import ua.com.radiokot.strobe.command.ContinuousFlashingHzCommand
 import ua.com.radiokot.strobe.command.SingleFlashCommand
 import ua.com.radiokot.strobe.util.ObservableTransformers
+import java.io.IOException
 
 class ControlActivity : BaseActivity() {
 
@@ -106,11 +107,18 @@ class ControlActivity : BaseActivity() {
                 .send(command)
                 .compose(ObservableTransformers.defaultSchedulersCompletable())
                 .subscribeBy(
-                        onError = { error ->
-                            toastManager.short(error.message)
-                        }
+                        onError = this::onCommandSendError
                 )
                 .addTo(compositeDisposable)
+    }
+
+    private fun onCommandSendError(error: Throwable) {
+        if (error is IOException) {
+            toastManager.short(R.string.error_connection_lost)
+            finish()
+        } else {
+            toastManager.short(error.message)
+        }
     }
 
     override fun onDestroy() {
