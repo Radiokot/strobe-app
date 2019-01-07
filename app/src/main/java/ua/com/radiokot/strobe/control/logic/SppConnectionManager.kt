@@ -31,9 +31,9 @@ class SppConnectionManager {
      * @see setDevice
      */
     fun connect(): Single<SppConnection> {
-        mConnection?.disconnect()
-
         return {
+            mConnection?.disconnect()
+
             val socket = mDevice?.createRfcommSocketToServiceRecord(SPP_SERVICE_UUID)
                     ?: throw IllegalStateException("No device set")
             socket.connect()

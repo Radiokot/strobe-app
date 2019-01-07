@@ -3,4 +3,7 @@
     <string name="devices_title">Devices</string>
     <string name="unknown_device">Unknown device</string>
     <string name="open_bt_settings_action">Open Bluetooth settings</string>
+    <string name="loading_progress">Loading…</string>
+    <string name="connecting_progress">Connecting…</string>
+    <string name="single_flash">Single flash</string>
 </resources>

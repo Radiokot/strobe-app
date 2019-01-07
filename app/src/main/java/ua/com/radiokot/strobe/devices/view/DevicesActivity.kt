@@ -10,8 +10,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_devices.*
+import org.jetbrains.anko.intentFor
 import ua.com.radiokot.strobe.R
 import ua.com.radiokot.strobe.base.BaseActivity
+import ua.com.radiokot.strobe.control.view.ControlActivity
 import ua.com.radiokot.strobe.devices.view.adapter.BluetoothDevicesAdapter
 
 class DevicesActivity : BaseActivity() {
@@ -71,7 +73,7 @@ class DevicesActivity : BaseActivity() {
     }
 
     private fun openControl() {
-        finish()
+        startActivity(intentFor<ControlActivity>())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

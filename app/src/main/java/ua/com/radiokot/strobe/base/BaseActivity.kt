@@ -7,6 +7,7 @@ import io.reactivex.disposables.CompositeDisposable
 import ua.com.radiokot.strobe.App
 import ua.com.radiokot.strobe.control.logic.SppConnectionManager
 import ua.com.radiokot.strobe.util.ToastManager
+import ua.com.radiokot.strobe.view.util.ProgressDialogFactory
 import javax.inject.Inject
 
 abstract class BaseActivity : AppCompatActivity() {
@@ -15,6 +16,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @Inject
     protected lateinit var toastManager: ToastManager
+
+    @Inject
+    protected lateinit var progressDialogFactory: ProgressDialogFactory
 
     protected val compositeDisposable: CompositeDisposable = CompositeDisposable()
 

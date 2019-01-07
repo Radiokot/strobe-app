@@ -3,11 +3,9 @@ package ua.com.radiokot.strobe
 import android.app.Application
 import android.support.v7.app.AppCompatDelegate
 import ua.com.radiokot.strobe.control.logic.SppConnectionManager
-import ua.com.radiokot.strobe.di.AppComponent
-import ua.com.radiokot.strobe.di.DaggerAppComponent
-import ua.com.radiokot.strobe.di.SppConnectionManagerModule
-import ua.com.radiokot.strobe.di.ToastManagerModule
+import ua.com.radiokot.strobe.di.*
 import ua.com.radiokot.strobe.util.ToastManager
+import ua.com.radiokot.strobe.view.util.ProgressDialogFactory
 
 class App: Application() {
     private lateinit var mComponent: AppComponent
@@ -30,6 +28,9 @@ class App: Application() {
                 )
                 .toastManagerModule(
                         ToastManagerModule(ToastManager(this))
+                )
+                .progressDialogFactoryModule(
+                        ProgressDialogFactoryModule(ProgressDialogFactory())
                 )
                 .build()
     }

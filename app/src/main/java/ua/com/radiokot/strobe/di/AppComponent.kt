@@ -7,7 +7,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [
     SppConnectionManagerModule::class,
-    ToastManagerModule::class
+    ToastManagerModule::class,
+    ProgressDialogFactoryModule::class
 ])
 interface AppComponent {
     fun inject(baseActivity: BaseActivity)
