@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import io.reactivex.disposables.CompositeDisposable
 import ua.com.radiokot.strobe.App
+import ua.com.radiokot.strobe.command.sender.CommandSender
 import ua.com.radiokot.strobe.control.logic.SppConnectionManager
 import ua.com.radiokot.strobe.util.ToastManager
 import ua.com.radiokot.strobe.view.util.ProgressDialogFactory
@@ -19,6 +20,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     @Inject
     protected lateinit var progressDialogFactory: ProgressDialogFactory
+
+    @Inject
+    protected lateinit var commandSender: CommandSender
 
     protected val compositeDisposable: CompositeDisposable = CompositeDisposable()
 

@@ -14,4 +14,10 @@
         android:layout_height="128dp"
         android:text="@string/single_flash"/>
 
+    <Button
+        android:id="@+id/bpm_flashing_button"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:text="260 BMP"/>
+
 </LinearLayout>

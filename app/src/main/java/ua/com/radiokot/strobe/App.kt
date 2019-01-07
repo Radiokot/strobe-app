@@ -2,6 +2,7 @@ package ua.com.radiokot.strobe
 
 import android.app.Application
 import android.support.v7.app.AppCompatDelegate
+import ua.com.radiokot.strobe.command.sender.CommandSenderFactory
 import ua.com.radiokot.strobe.control.logic.SppConnectionManager
 import ua.com.radiokot.strobe.di.*
 import ua.com.radiokot.strobe.util.ToastManager
@@ -31,6 +32,9 @@ class App: Application() {
                 )
                 .progressDialogFactoryModule(
                         ProgressDialogFactoryModule(ProgressDialogFactory())
+                )
+                .commandSenderModule(
+                        CommandSenderModule(CommandSenderFactory())
                 )
                 .build()
     }

@@ -7,6 +7,8 @@ import kotlinx.android.synthetic.main.activity_control.*
 import org.jetbrains.anko.onClick
 import ua.com.radiokot.strobe.R
 import ua.com.radiokot.strobe.base.BaseActivity
+import ua.com.radiokot.strobe.command.ContinuousFlashingBpmCommand
+import ua.com.radiokot.strobe.command.SingleFlashCommand
 import ua.com.radiokot.strobe.util.ObservableTransformers
 
 class ControlActivity : BaseActivity() {
@@ -17,14 +19,22 @@ class ControlActivity : BaseActivity() {
 
         connect()
 
-        flash_button.onClick {
-            val connection = sppConnectionManager
-                    .getConnection()
-                    .blockingGet()
+        flash_button.onClick { it ->
+            commandSender
+                    .send(SingleFlashCommand())
+                    .subscribeBy(onError = { error ->
+                        toastManager.short(error.message)
+                    })
+                    .addTo(compositeDisposable)
+        }
 
-
-                    connection.outputStream
-                    .write(1)
+        bpm_flashing_button.onClick {
+            commandSender
+                    .send(ContinuousFlashingBpmCommand(600))
+                    .subscribeBy(onError = { error ->
+                        toastManager.short(error.message)
+                    })
+                    .addTo(compositeDisposable)
         }
     }
 

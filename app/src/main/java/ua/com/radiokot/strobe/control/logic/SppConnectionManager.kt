@@ -6,7 +6,7 @@ import io.reactivex.rxkotlin.toMaybe
 import io.reactivex.rxkotlin.toSingle
 import java.util.*
 
-class SppConnectionManager {
+class SppConnectionManager: SppConnectionProvider {
     private var mConnection: SppConnection? = null
     private var mDevice: BluetoothDevice? = null
 
@@ -49,7 +49,7 @@ class SppConnectionManager {
      *
      * @see connect
      */
-    fun getConnection(): Single<SppConnection> {
+    override fun getConnection(): Single<SppConnection> {
         return mConnection
                 .toMaybe()
                 .switchIfEmpty(connect())
