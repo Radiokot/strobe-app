@@ -10,10 +10,7 @@ import org.jetbrains.anko.button
 import org.jetbrains.anko.onClick
 import ua.com.radiokot.strobe.R
 import ua.com.radiokot.strobe.base.BaseActivity
-import ua.com.radiokot.strobe.command.Command
-import ua.com.radiokot.strobe.command.ContinuousFlashingBpmCommand
-import ua.com.radiokot.strobe.command.ContinuousFlashingHzCommand
-import ua.com.radiokot.strobe.command.SingleFlashCommand
+import ua.com.radiokot.strobe.command.*
 import ua.com.radiokot.strobe.util.ObservableTransformers
 import java.io.IOException
 
@@ -59,6 +56,10 @@ class ControlActivity : BaseActivity() {
     private fun initControls() {
         flash_button.onClick {
             sendCommand(SingleFlashCommand())
+        }
+
+        stop_button.onClick {
+            sendCommand(StopCommand())
         }
 
         createBpmButtons()

@@ -9,4 +9,5 @@
     <string name="bpm_presets_title">BPM</string>
     <string name="hz_presets_title">Hz</string>
     <string name="error_connection_lost">Lost device connection</string>
+    <string name="stop_flashing">Stop</string>
 </resources>
