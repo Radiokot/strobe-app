@@ -1,13 +1,18 @@
 package ua.com.radiokot.strobe.control.view
 
 import android.os.Bundle
+import android.support.v7.widget.GridLayout
+import android.view.View
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_control.*
+import org.jetbrains.anko.button
 import org.jetbrains.anko.onClick
 import ua.com.radiokot.strobe.R
 import ua.com.radiokot.strobe.base.BaseActivity
+import ua.com.radiokot.strobe.command.Command
 import ua.com.radiokot.strobe.command.ContinuousFlashingBpmCommand
+import ua.com.radiokot.strobe.command.ContinuousFlashingHzCommand
 import ua.com.radiokot.strobe.command.SingleFlashCommand
 import ua.com.radiokot.strobe.util.ObservableTransformers
 
@@ -19,23 +24,7 @@ class ControlActivity : BaseActivity() {
 
         connect()
 
-        flash_button.onClick { it ->
-            commandSender
-                    .send(SingleFlashCommand())
-                    .subscribeBy(onError = { error ->
-                        toastManager.short(error.message)
-                    })
-                    .addTo(compositeDisposable)
-        }
-
-        bpm_flashing_button.onClick {
-            commandSender
-                    .send(ContinuousFlashingBpmCommand(600))
-                    .subscribeBy(onError = { error ->
-                        toastManager.short(error.message)
-                    })
-                    .addTo(compositeDisposable)
-        }
+        initControls()
     }
 
     private fun connect() {
@@ -66,8 +55,73 @@ class ControlActivity : BaseActivity() {
         finish()
     }
 
+    private fun initControls() {
+        flash_button.onClick {
+            sendCommand(SingleFlashCommand())
+        }
+
+        createBpmButtons()
+        createHzButtons()
+    }
+
+    private fun createBpmButtons() {
+        val clickListener = View.OnClickListener { view ->
+            val bpm = view.tag as? Short
+                    ?: return@OnClickListener
+
+            sendCommand(ContinuousFlashingBpmCommand(bpm))
+        }
+
+        fillLayoutWithButtons(bpm_layout, BPM_VALUES, clickListener)
+    }
+
+    private fun createHzButtons() {
+        val clickListener = View.OnClickListener { view ->
+            val hz = view.tag as? Byte
+                    ?: return@OnClickListener
+
+            sendCommand(ContinuousFlashingHzCommand(hz))
+        }
+
+        fillLayoutWithButtons(hz_layout, HZ_VALUES, clickListener)
+    }
+
+    private fun fillLayoutWithButtons(layout: GridLayout,
+                                      values: List<Any>,
+                                      clickListener: View.OnClickListener) {
+        values.forEach { value ->
+            layout.button {
+                text = value.toString()
+                tag = value
+                layoutParams = GridLayout.LayoutParams().apply {
+                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                }
+                setOnClickListener(clickListener)
+            }
+        }
+    }
+
+    private fun sendCommand(command: Command) {
+        commandSender
+                .send(command)
+                .compose(ObservableTransformers.defaultSchedulersCompletable())
+                .subscribeBy(
+                        onError = { error ->
+                            toastManager.short(error.message)
+                        }
+                )
+                .addTo(compositeDisposable)
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         sppConnectionManager.disconnect()
+    }
+
+    companion object {
+        private val BPM_VALUES = listOf<Short>(20, 30, 40, 60, 70, 80, 90, 100,
+                120, 180, 220, 280, 320, 380, 420, 600, 720)
+
+        private val HZ_VALUES = listOf<Byte>(1, 2, 3, 4, 5, 10, 12, 16)
     }
 }

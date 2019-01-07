@@ -37,6 +37,7 @@ dependencies {
 
     implementation "com.android.support:appcompat-v7:${support_lib_version}"
     implementation "com.android.support:recyclerview-v7:${support_lib_version}"
+    implementation "com.android.support:gridlayout-v7:${support_lib_version}"
 
     implementation 'com.google.dagger:dagger:2.16'
     kapt 'com.google.dagger:dagger-compiler:2.13'

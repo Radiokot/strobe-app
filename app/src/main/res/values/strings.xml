@@ -6,4 +6,6 @@
     <string name="loading_progress">Loading…</string>
     <string name="connecting_progress">Connecting…</string>
     <string name="single_flash">Single flash</string>
+    <string name="bpm_presets_title">BPM</string>
+    <string name="hz_presets_title">Hz</string>
 </resources>
