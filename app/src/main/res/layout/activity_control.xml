@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -20,14 +20,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="4"
-            android:text="@string/stop_flashing"/>
+            android:text="@string/stop_flashing" />
 
         <Button
             android:id="@+id/flash_button"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="8"
-            android:text="@string/single_flash"/>
+            android:text="@string/single_flash" />
     </LinearLayout>
 
     <ScrollView
@@ -47,29 +47,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="6dp"
-                android:text="@string/bpm_presets_title"/>
+                android:text="@string/bpm_presets_title" />
 
             <android.support.v7.widget.GridLayout
                 android:id="@+id/bpm_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:columnCount="3"/>
+                app:columnCount="3" />
 
             <Space
                 android:layout_width="0dp"
-                android:layout_height="@dimen/standard_margin"/>
+                android:layout_height="@dimen/standard_margin" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="6dp"
-                android:text="@string/hz_presets_title"/>
+                android:text="@string/hz_presets_title" />
 
             <android.support.v7.widget.GridLayout
                 android:id="@+id/hz_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:columnCount="3"/>
+                app:columnCount="3" />
 
         </LinearLayout>
 

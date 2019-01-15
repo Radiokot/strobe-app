@@ -3,10 +3,11 @@ package ua.com.radiokot.strobe.control.view
 import android.os.Bundle
 import android.support.v7.widget.GridLayout
 import android.view.View
+import android.widget.Button
 import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_control.*
-import org.jetbrains.anko.button
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.onClick
 import ua.com.radiokot.strobe.R
 import ua.com.radiokot.strobe.base.BaseActivity
@@ -20,14 +21,15 @@ class ControlActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_control)
 
-        connect()
-
-        initControls()
+        root_layout.post {
+            connect()
+            initControls()
+        }
     }
 
     private fun connect() {
         val progress = progressDialogFactory.getProgressDialog(
-                this, R.string.connecting_progress, true
+                this, R.string.connecting_progress, true, false
         )
 
         sppConnectionManager
@@ -91,14 +93,23 @@ class ControlActivity : BaseActivity() {
     private fun fillLayoutWithButtons(layout: GridLayout,
                                       values: List<Any>,
                                       clickListener: View.OnClickListener) {
-        values.forEach { value ->
-            layout.button {
-                text = value.toString()
-                tag = value
-                layoutParams = GridLayout.LayoutParams().apply {
-                    columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+        doAsync {
+            val buttons = values.map { value ->
+                Button(this@ControlActivity)
+                        .apply {
+                            text = value.toString()
+                            tag = value
+                            layoutParams = GridLayout.LayoutParams().apply {
+                                columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f)
+                            }
+                            setOnClickListener(clickListener)
+                        }
+            }
+
+            runOnUiThread {
+                if (!isFinishing) {
+                    buttons.forEach { layout.addView(it) }
                 }
-                setOnClickListener(clickListener)
             }
         }
     }
