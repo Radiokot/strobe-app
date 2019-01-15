@@ -21,6 +21,8 @@ class ControlActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_control)
 
+        supportActionBar?.hide()
+
         root_layout.post {
             connect()
             initControls()
