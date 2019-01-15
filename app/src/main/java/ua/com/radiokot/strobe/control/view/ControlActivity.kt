@@ -139,8 +139,8 @@ class ControlActivity : BaseActivity() {
     }
 
     companion object {
-        private val BPM_VALUES = listOf<Short>(20, 30, 40, 60, 70, 80, 90, 100,
-                120, 180, 220, 280, 320, 380, 420, 600, 720)
+        private val BPM_VALUES = listOf<Short>(20, 30, 40, 50, 60, 70, 80, 90, 100, 110,
+                120, 140, 180, 220, 280, 320, 380, 420, 510, 600, 720)
 
         private val HZ_VALUES = listOf<Byte>(1, 2, 3, 4, 5, 10, 12, 16)
     }
