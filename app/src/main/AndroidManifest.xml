@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="ua.com.radiokot.strobe">
 
     <uses-permission android:name="android.permission.BLUETOOTH"/>
@@ -11,7 +12,8 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".devices.view.DevicesActivity"
             android:configChanges="orientation|screenSize"
@@ -26,6 +28,10 @@
         </activity>
         <activity
             android:name=".control.view.ControlActivity"
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="userPortrait"/>
+        <activity
+            android:name=".control.view.SingleFlashActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="userPortrait"/>
     </application>

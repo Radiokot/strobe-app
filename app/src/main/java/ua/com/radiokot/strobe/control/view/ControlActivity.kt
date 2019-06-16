@@ -4,18 +4,18 @@ import android.os.Bundle
 import android.support.v7.widget.GridLayout
 import android.view.View
 import android.widget.Button
-import io.reactivex.rxkotlin.addTo
-import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.android.synthetic.main.activity_control.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.onClick
+import org.jetbrains.anko.onLongClick
 import ua.com.radiokot.strobe.R
-import ua.com.radiokot.strobe.base.BaseActivity
-import ua.com.radiokot.strobe.command.*
-import ua.com.radiokot.strobe.util.ObservableTransformers
-import java.io.IOException
+import ua.com.radiokot.strobe.command.ContinuousFlashingBpmCommand
+import ua.com.radiokot.strobe.command.ContinuousFlashingHzCommand
+import ua.com.radiokot.strobe.command.SingleFlashCommand
+import ua.com.radiokot.strobe.command.StopCommand
 
-class ControlActivity : BaseActivity() {
+class ControlActivity : BaseControlActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,41 +29,18 @@ class ControlActivity : BaseActivity() {
         }
     }
 
-    private fun connect() {
-        val progress = progressDialogFactory.getProgressDialog(
-                this, R.string.connecting_progress, true, false
-        )
-
-        sppConnectionManager
-                .connect()
-                .compose(ObservableTransformers.defaultSchedulersSingle())
-                .doOnSubscribe { progress.show() }
-                .subscribeBy(
-                        onSuccess = {
-                            progress.dismiss()
-                        },
-                        onError = this::onConnectionError
-                )
-                .addTo(compositeDisposable)
-
-        progress.setOnCancelListener {
-            finish()
-        }
-    }
-
-    private fun onConnectionError(error: Throwable) {
-        error.printStackTrace()
-        toastManager.short(error.message)
-        finish()
-    }
-
     private fun initControls() {
         flash_button.onClick {
-            sendCommand(SingleFlashCommand())
+            sendCommand(SingleFlashCommand)
+        }
+
+        flash_button.onLongClick {
+            openSingleFlashScreen()
+            true
         }
 
         stop_button.onClick {
-            sendCommand(StopCommand())
+            sendCommand(StopCommand)
         }
 
         createBpmButtons()
@@ -116,28 +93,13 @@ class ControlActivity : BaseActivity() {
         }
     }
 
-    private fun sendCommand(command: Command) {
-        commandSender
-                .send(command)
-                .compose(ObservableTransformers.defaultSchedulersCompletable())
-                .subscribeBy(
-                        onError = this::onCommandSendError
-                )
-                .addTo(compositeDisposable)
-    }
-
-    private fun onCommandSendError(error: Throwable) {
-        if (error is IOException) {
-            toastManager.short(R.string.error_connection_lost)
-            finish()
-        } else {
-            toastManager.short(error.message)
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         sppConnectionManager.disconnect()
+    }
+
+    private fun openSingleFlashScreen() {
+        startActivity(intentFor<SingleFlashActivity>())
     }
 
     companion object {

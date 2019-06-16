@@ -51,6 +51,7 @@ class SppConnectionManager: SppConnectionProvider {
      */
     override fun getConnection(): Single<SppConnection> {
         return mConnection
+                ?.takeIf(SppConnection::isActive)
                 .toMaybe()
                 .switchIfEmpty(connect())
     }
